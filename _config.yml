@@ -1,1 +1,13 @@
+title: CASTOR Software Docs
+
+description: >-
+  Documentation about CASTOR open-source software
+
 theme: jekyll-theme-minimal
+
+logo: assets/castor_logo.png
+
+exclude:
+  - README.md
+  - Gemfile.lock
+  - Gemfile

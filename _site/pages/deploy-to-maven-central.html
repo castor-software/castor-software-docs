@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Deploy Java artifacts to the CASTOR namespace in Maven Central | CASTOR Software Docs</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Deploy Java artifacts to the CASTOR namespace in Maven Central" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation about CASTOR open-source software" />
+<meta property="og:description" content="Documentation about CASTOR open-source software" />
+<link rel="canonical" href="http://localhost:4000/pages/deploy-to-maven-central.html" />
+<meta property="og:url" content="http://localhost:4000/pages/deploy-to-maven-central.html" />
+<meta property="og:site_name" content="CASTOR Software Docs" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"http://localhost:4000/pages/deploy-to-maven-central.html","headline":"Deploy Java artifacts to the CASTOR namespace in Maven Central","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/castor_logo.png"}},"description":"Documentation about CASTOR open-source software","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/assets/css/style.css?v=fe2b89ca1e70d9c19ebeeef2ab3f159489320f0d">
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="http://localhost:4000/">CASTOR Software Docs</a></h1>
+
+        
+          <img src="/assets/castor_logo.png" alt="Logo" />
+        
+
+        <p>Documentation about CASTOR open-source software</p>
+
+        
+        <p class="view"><a href="https://github.com/castor-software">View our organization on GitHub <small>castor-software</small></a></p>
+        
+
+
+
+        
+
+        
+      </header>
+      <section>
+
+      <nav>
+	<ul>
+	  
+	  <li class="dropdown">
+	    
+	    <a class="dropbtn" href="/index.html" >About</a>
+	    
+
+	  </li>
+	  
+	  <li class="dropdown">
+	    
+	    <a class="dropbtn" href="javascript:void(0)" >How to&nbsp;&#9662;</a>
+	    <ul class="dropdown-content">
+	      
+	      <li>
+		<a href="/pages/deploy-to-maven-central.html">Deploy to Maven Central</a>
+	      </li>
+              
+	    </ul>
+	    
+
+	  </li>
+	  
+	</ul>
+      </nav>
+
+      <h1 id="deploy-java-artifacts-to-the-castor-namespace-in-maven-central">Deploy Java artifacts to the CASTOR namespace in Maven Central</h1>
+
+<p>Maven Central is the de-facto repository for hosting software artifacts that compile to the JVM. Here we describe the process of releasing a new artifact in Maven Central following an step-by-step approach.</p>
+
+<h2 id="table-of-content">Table of content</h2>
+
+<ul>
+  <li><a href="#1-create-a-jira-ticket-in-sonatype">1. Create a JIRA ticket in Sonatype</a></li>
+  <li><a href="#2-configuring-the-pom">2. Configuring the POM</a></li>
+  <li><a href="#3-release-to-maven-central">3. Release to Maven Central</a></li>
+  <li><a href="#references">References</a></li>
+</ul>
+
+<h2 id="1-create-a-jira-ticket-in-sonatype">1. Create a JIRA ticket in Sonatype</h2>
+
+<p>First, you need to create a JIRA account and submit a ticket there requesting adding your project artifact coordinates (groupId:artifactId:version) to the namespace <code class="language-plaintext highlighter-rouge">se.kth.castor</code> in Sonatype:</p>
+
+<ol>
+  <li><a href="https://issues.sonatype.org/secure/Signup!default.jspa">Create a JIRA account</a></li>
+  <li><a href="https://issues.sonatype.org/secure/CreateIssue.jspa?issuetype=21&amp;pid=10134">Create a New Project ticket</a></li>
+</ol>
+
+<p>A staging repository is already configured for the requested artifact’s coordinates. You need to find someone with a deployer role in CASTOR that comment on the ticket to verify your request (e.g., you can contact <a href="https://github.com/cesarsotovalero">cesarsotovalero</a>). Below is an example of a ticket that I created for the artifacts: <code class="language-plaintext highlighter-rouge">depclean-core</code> and <code class="language-plaintext highlighter-rouge">depclean-maven-plugin</code>.</p>
+
+<p><img src="/assets/img/sonatype_screeshot.png" alt="" /></p>
+
+<p>The ticked review is a manual process, it normally takes less than 2 business days to be answered.</p>
+
+<h2 id="2-configuring-the-pom">2. Configuring the POM</h2>
+
+<p>After the approval of the ticket, you need to provide additional information to the POM of the Maven project (or module) to be deployed. To do so, follow each of the steps below exactly as they are. Below is an example for the already released artifact <code class="language-plaintext highlighter-rouge">se.kth.castor:depclean-maven-plugin:1.0.0</code></p>
+
+<ol>
+  <li>
+    <p>Choose appropriate coordinates as explained <a href="https://central.sonatype.org/pages/choosing-your-coordinates.html">here</a>:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;groupId&gt;</span>se.kth.castor<span class="nt">&lt;/groupId&gt;</span>
+ <span class="nt">&lt;artifactId&gt;</span>depclean-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+ <span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add your project name, description, and URL:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;name&gt;</span>depclean-maven-plugin<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;description&gt;</span>DepClean is a plugin for automatically remove unused dependencies in Maven projects<span class="nt">&lt;/description&gt;</span>
+<span class="nt">&lt;url&gt;</span>https://github.com/castor-software/depclean<span class="nt">&lt;/url&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add licence information:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;licenses&gt;</span>
+    <span class="nt">&lt;license&gt;</span>
+       <span class="nt">&lt;name&gt;</span>MIT License<span class="nt">&lt;/name&gt;</span>
+       <span class="nt">&lt;url&gt;</span>http://www.opensource.org/licenses/mit-license.php<span class="nt">&lt;/url&gt;</span>
+       <span class="nt">&lt;distribution&gt;</span>repo<span class="nt">&lt;/distribution&gt;</span>
+    <span class="nt">&lt;/license&gt;</span>
+ <span class="nt">&lt;/licenses&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add information about developer/s :</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;developers&gt;</span>
+      <span class="nt">&lt;developer&gt;</span>
+         <span class="nt">&lt;id&gt;</span>cesarsotovalero<span class="nt">&lt;/id&gt;</span>
+         <span class="nt">&lt;name&gt;</span>César Soto Valero<span class="nt">&lt;/name&gt;</span>
+         <span class="nt">&lt;email&gt;</span>cesarsotovalero@gmail.com<span class="nt">&lt;/email&gt;</span>
+         <span class="nt">&lt;organization&gt;</span>Castor Software Research Centre<span class="nt">&lt;/organization&gt;</span>
+         <span class="nt">&lt;organizationUrl&gt;</span>https://www.castor.kth.se/<span class="nt">&lt;/organizationUrl&gt;</span>
+      <span class="nt">&lt;/developer&gt;</span>
+  <span class="nt">&lt;/developers&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add SCM information, the following example uses GitHub:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;scm&gt;</span>
+    <span class="nt">&lt;url&gt;</span>https://github.com/castor-software/depclean/<span class="nt">&lt;/url&gt;</span>
+    <span class="nt">&lt;connection&gt;</span>scm:git:git:github.com/castor-software/depclean.git<span class="nt">&lt;/connection&gt;</span>
+    <span class="nt">&lt;developerConnection&gt;</span>scm:git:git@github.com:castor-software/depclean.git<span class="nt">&lt;/developerConnection&gt;</span>
+ <span class="nt">&lt;/scm&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add distribution management and authentication to Sonatype via the <code class="language-plaintext highlighter-rouge">nexus-staging-maven-plugin</code>:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;distributionManagement&gt;</span>
+   <span class="nt">&lt;snapshotRepository&gt;</span>
+     <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+     <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
+   <span class="nt">&lt;/snapshotRepository&gt;</span>
+ <span class="nt">&lt;/distributionManagement&gt;</span>
+ <span class="nt">&lt;build&gt;</span>
+   <span class="nt">&lt;plugins&gt;</span>
+     <span class="nt">&lt;plugin&gt;</span>
+       <span class="nt">&lt;groupId&gt;</span>org.sonatype.plugins<span class="nt">&lt;/groupId&gt;</span>
+       <span class="nt">&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+       <span class="nt">&lt;version&gt;</span>1.6.7<span class="nt">&lt;/version&gt;</span>
+       <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+       <span class="nt">&lt;configuration&gt;</span>
+         <span class="nt">&lt;serverId&gt;</span>ossrh<span class="nt">&lt;/serverId&gt;</span>
+         <span class="nt">&lt;nexusUrl&gt;</span>https://oss.sonatype.org/<span class="nt">&lt;/nexusUrl&gt;</span>
+         <span class="nt">&lt;autoReleaseAfterClose&gt;</span>true<span class="nt">&lt;/autoReleaseAfterClose&gt;</span>
+       <span class="nt">&lt;/configuration&gt;</span>
+     <span class="nt">&lt;/plugin&gt;</span>
+     ...
+   <span class="nt">&lt;/plugins&gt;</span>
+ <span class="nt">&lt;/build&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add javadoc and sources attachments using the <code class="language-plaintext highlighter-rouge">maven-javadoc-plugin</code> and  <code class="language-plaintext highlighter-rouge">maven-source-plugin</code> :</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>maven-source-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>2.2.1<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;executions&gt;</span>
+        <span class="nt">&lt;execution&gt;</span>
+          <span class="nt">&lt;id&gt;</span>attach-sources<span class="nt">&lt;/id&gt;</span>
+          <span class="nt">&lt;goals&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>jar-no-fork<span class="nt">&lt;/goal&gt;</span>
+          <span class="nt">&lt;/goals&gt;</span>
+        <span class="nt">&lt;/execution&gt;</span>
+      <span class="nt">&lt;/executions&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>maven-javadoc-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>2.9.1<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;executions&gt;</span>
+        <span class="nt">&lt;execution&gt;</span>
+          <span class="nt">&lt;id&gt;</span>attach-javadocs<span class="nt">&lt;/id&gt;</span>
+          <span class="nt">&lt;goals&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>jar<span class="nt">&lt;/goal&gt;</span>
+          <span class="nt">&lt;/goals&gt;</span>
+        <span class="nt">&lt;/execution&gt;</span>
+      <span class="nt">&lt;/executions&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add GPG signed components using the <code class="language-plaintext highlighter-rouge">maven-gpg-plugin</code>:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>maven-gpg-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;executions&gt;</span>
+        <span class="nt">&lt;execution&gt;</span>
+          <span class="nt">&lt;id&gt;</span>sign-artifacts<span class="nt">&lt;/id&gt;</span>
+          <span class="nt">&lt;phase&gt;</span>verify<span class="nt">&lt;/phase&gt;</span>
+          <span class="nt">&lt;goals&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>sign<span class="nt">&lt;/goal&gt;</span>
+          <span class="nt">&lt;/goals&gt;</span>
+        <span class="nt">&lt;/execution&gt;</span>
+      <span class="nt">&lt;/executions&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Follow <a href="https://central.sonatype.org/pages/working-with-pgp-signatures.html">this instructions</a> to encrypt your artifact with <a href="https://linux.die.net/man/1/gpg2">gpg2</a> and distribute your public key to a key server (e.g., <a href="http://keys.gnupg.net">http://keys.gnupg.net</a>). Do not forget to choose a passphrase to protect your secret key. Then add your gpg credentials with your passphrase to your Maven<code class="language-plaintext highlighter-rouge">settings.xml</code> file locally:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;settings&gt;</span>
+   <span class="nt">&lt;profiles&gt;</span>
+     <span class="nt">&lt;profile&gt;</span>
+       <span class="nt">&lt;id&gt;</span>ossrh<span class="nt">&lt;/id&gt;</span>
+       <span class="nt">&lt;activation&gt;</span>
+         <span class="nt">&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;</span>
+       <span class="nt">&lt;/activation&gt;</span>
+       <span class="nt">&lt;properties&gt;</span>
+         <span class="nt">&lt;gpg.executable&gt;</span>gpg2<span class="nt">&lt;/gpg.executable&gt;</span>
+         <span class="nt">&lt;gpg.passphrase&gt;</span>the_pass_phrase<span class="nt">&lt;/gpg.passphrase&gt;</span>
+       <span class="nt">&lt;/properties&gt;</span>
+     <span class="nt">&lt;/profile&gt;</span>
+   <span class="nt">&lt;/profiles&gt;</span>
+ <span class="nt">&lt;/settings&gt;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add <code class="language-plaintext highlighter-rouge">nexus-staging-maven-plugin</code> with the following configurations:</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;build&gt;</span>
+<span class="nt">&lt;plugins&gt;</span>
+  <span class="nt">&lt;plugin&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.sonatype.plugins<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>nexus-staging-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.6.7<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+    <span class="nt">&lt;configuration&gt;</span>
+       <span class="nt">&lt;serverId&gt;</span>ossrh<span class="nt">&lt;/serverId&gt;</span>
+       <span class="nt">&lt;nexusUrl&gt;</span>https://oss.sonatype.org/<span class="nt">&lt;/nexusUrl&gt;</span>
+       <span class="nt">&lt;autoReleaseAfterClose&gt;</span>true<span class="nt">&lt;/autoReleaseAfterClose&gt;</span>
+    <span class="nt">&lt;/configuration&gt;</span>
+  <span class="nt">&lt;/plugin&gt;</span>
+<span class="nt">&lt;/plugins&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="3-release-to-maven-central">3. Release to Maven Central</h2>
+
+<p>Finally, run a deployment to OSSRH and an automated release to the Central Repository with the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  mvn clean deploy
+</code></pre></div></div>
+
+<p>After this, the Central sync will be activated for your artifact. After you successfully deploy, your artifact will be published to Maven Central, typically within 10 minutes, though updates to <a href="https://search.maven.org">search.maven.org</a> can take up to two hours.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="https://maven.apache.org/repository/guide-central-repository-upload.html">Apache Maven Official Instructions</a></li>
+  <li><a href="https://central.sonatype.org/pages/ossrh-guide.html">OSSRH Guide</a></li>
+  <li><a href="https://www.youtube.com/watch?v=bxP9IuJbcDQ">Tutorial on YouTube</a></li>
+</ul>
+
+
+
+      </section>
+<!--      <footer>-->
+<!--        -->
+<!--        <p>This project is maintained by <a href="https://github.com/castor-software">castor-software</a></p>-->
+<!--        -->
+<!--        <p><small>Hosted on GitHub Pages</small></p>-->
+<!--      </footer>-->
+    </div>
+    <script src="/assets/js/scale.fix.js"></script>
+    
+  </body>
+</html>

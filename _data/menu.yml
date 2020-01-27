@@ -1,0 +1,8 @@
+- name: About
+  url: /index
+
+- name: How to
+  url:
+  children:
+     - name: Deploy to Maven Central
+       url: /pages/deploy-to-maven-central
